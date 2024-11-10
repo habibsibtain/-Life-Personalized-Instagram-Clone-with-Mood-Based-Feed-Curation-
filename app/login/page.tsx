@@ -68,7 +68,7 @@ const Page = () => {
               </button>
             </div>
           </div>
-          <p className=" text-sm flex gap-2 justify-center"> Don't have an account? <Link href={'/signup'}> SignUp </Link> </p>
+          <p className=" text-sm flex gap-2 justify-center"> Do not have an account? <Link href={'/signup'}> SignUp </Link> </p>
           </form>
           <div className="flex justify-center items-center">
 

@@ -15,6 +15,16 @@ type UserDetails = {
   coverPic?: string;
 }
 
+interface Post {
+  _id?: string;
+  userId?: string;
+  mediaURL?: string;
+  caption?: string;
+  createdAt?: string;
+  username?: string;
+  fullname?: string;
+}
+
 const Page = () => {
   const id = useParams()
   const [posts, setPosts] = React.useState([]);
@@ -28,8 +38,8 @@ const Page = () => {
           Authorization: `Bearer ${token}`,
         }
       }).then((res) => {
-        const user = res.data.users.filter((user: any) => user._id === id.id);
-        const userPosts = res.data.allPosts.filter((posts: any) => posts.userId === id.id);
+        const user = res.data.users.filter((user: UserDetails) => user._id === id.id);
+        const userPosts = res.data.allPosts.filter((posts: Post) => posts.userId === id.id);
         setPosts(userPosts);
         setUserDetails(user[0]);
         

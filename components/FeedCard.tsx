@@ -16,6 +16,13 @@ interface PostData {
   likedBy?: string[];
 }
 
+interface CommentData {
+  comment?: string;
+  userId?:{ username:string , _id:string};
+  username?: string;
+  createdAt?: string | number | Date;
+}
+
 const VideoCard = ({
   post,
   currentUserId,
@@ -29,7 +36,7 @@ const VideoCard = ({
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likedBy?.includes(currentUserId) ?? false
   );
-  const [comments, setComments] = useState<string[]>([]);
+  const [comments, setComments] = useState<CommentData[]>([]);
   const [newComment, setNewComment] = useState<string>("");
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
 
@@ -251,7 +258,7 @@ const VideoCard = ({
               <h3 className="text-lg font-semibold mb-4">Comments</h3>
               <div className="overflow-y-auto h-80">
                 {comments.length > 0 ? (
-                  comments.map((e: any, index) => (
+                  comments.map((e, index) => (
                     <div key={index} className="flex items-center gap-2 mb-2">
                       <Image
                         src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
@@ -263,14 +270,14 @@ const VideoCard = ({
                       <div className="flex flex-col">
                         <div className="flex items-center gap-2">
                           <p className="text-sm font-bold">
-                            {e.userId.username}
+                            {(e.userId)!.username}
                           </p>
                           <span className="text-sm text-white ">
                             {e.comment}
                           </span>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-500">{timeAgo(e.createdAt)}</p>
+                          <p className="text-xs text-gray-500">{timeAgo((e.createdAt)!)}</p>
                         </div>
                       </div>
                     </div>

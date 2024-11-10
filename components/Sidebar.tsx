@@ -7,8 +7,15 @@ import Image from "next/image";
 import axios from "axios";
 import Link from "next/link";
 
+type UserDetails = {
+  _id?: string;
+  fullname?: string;
+  username?: string;
+  email?: string;
+
+}
 const Sidebar = () => {
-  const [userDetails, setUserDetails] = React.useState<any>([]);
+  const [userDetails, setUserDetails] = React.useState<UserDetails>({});
 
   React.useEffect(() => {
     const fetchUser = async () => {
