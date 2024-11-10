@@ -47,7 +47,7 @@ const VideoCard = ({
       try {
         const token = localStorage.getItem("token");
         await axios
-          .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/comment/${post._id}`, {
+          .get(`/api/posts/comment/${post._id}`, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then((res) => {
@@ -107,7 +107,7 @@ const VideoCard = ({
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/allPosts`,
+        `/api/posts/allPosts`,
         { postId: post._id, userId: currentUserId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -131,7 +131,7 @@ const VideoCard = ({
       const token = localStorage.getItem("token");
       await axios
         .post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/comment`,
+          `/api/posts/comment`,
           { postId: post._id, userId: currentUserId, comment: newComment },
           { headers: { Authorization: `Bearer ${token}` } }
         )
@@ -324,7 +324,7 @@ const FeedCard = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/allPosts`,
+          `/api/posts/allPosts`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -338,7 +338,7 @@ const FeedCard = () => {
 
     const userData = async () => {
       await axios
-        .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/me`, {
+        .get(`/api/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

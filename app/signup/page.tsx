@@ -16,7 +16,7 @@ const Page = () => {
   const handleSignup = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     await axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/signup`, signupDetails)
+      .post(`/api/auth/signup`, signupDetails)
       .then((res) => {
         console.log(res)
         localStorage.setItem('token', res.data.token)

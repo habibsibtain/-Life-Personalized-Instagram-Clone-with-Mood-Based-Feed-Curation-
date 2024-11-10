@@ -1,11 +1,9 @@
-import { runCors } from "@/lib/cors";
 import dbConnect from "@/lib/dbConnect";
 import Post from "@/models/postSchema";
 import User from "@/models/userSchema";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  await runCors(req,"GET" , ()=>{})
   await dbConnect();
 
  

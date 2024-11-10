@@ -3,10 +3,8 @@ import User from "@/models/userSchema";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { runCors } from "@/lib/cors";
 
 export async function POST(requset: Request) {
-  await runCors(requset , "POST" , ()=>{});
   await dbConnect();
   try {
     const { username, password } = await requset.json();

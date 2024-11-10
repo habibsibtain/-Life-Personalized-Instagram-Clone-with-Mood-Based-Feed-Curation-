@@ -1,4 +1,3 @@
-import { runCors } from "@/lib/cors";
 import dbConnect from "@/lib/dbConnect";
 import Comment from "@/models/commentSchema";
 import Post from "@/models/postSchema";
@@ -7,7 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 export async function POST(req: NextRequest){
-  await runCors(req , "POST" , ()=>{})
   await dbConnect();
 
   try {

@@ -33,7 +33,7 @@ const Page = () => {
   React.useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
-      await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/all`, {
+      await axios.get(`/api/users/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         }
