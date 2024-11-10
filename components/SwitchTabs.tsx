@@ -39,6 +39,7 @@ const SwitchTabs: React.FC<SwitchTabsProps> = ({posts}) => {
         {activeTab === "tab1" ? (
           <div className="mt-4 grid grid-cols-4 gap-6 ">
             {Array.isArray(posts) && posts.length > 0 ?(
+              
                posts.map((e: any , index: number) => (
                 <div key={index} >
                   <video 

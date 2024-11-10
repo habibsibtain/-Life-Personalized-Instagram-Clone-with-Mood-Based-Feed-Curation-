@@ -38,6 +38,7 @@ export async function POST(req: NextRequest){
   
     console.log("From Backend",post)
     return NextResponse.json({ success: true, post });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error:any) {
     
     console.log("Error in adding comment to post", error.message);

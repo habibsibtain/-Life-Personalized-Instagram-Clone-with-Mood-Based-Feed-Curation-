@@ -18,6 +18,7 @@ const dbConnect = async () => {
       bufferCommands: true,
     } )
     console.log("Connected")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error:any) {
     console.log("Error connecting to database" , error.message) 
     process.exit(1)

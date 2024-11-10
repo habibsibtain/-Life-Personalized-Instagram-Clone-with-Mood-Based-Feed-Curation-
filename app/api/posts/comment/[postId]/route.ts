@@ -1,5 +1,4 @@
 import dbConnect from "@/lib/dbConnect";
-import Comment from "@/models/commentSchema";
 import Post from "@/models/postSchema";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -30,6 +30,7 @@ export async function POST(requset: Request) {
       success: true,
       user,
       token });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log("Error in logging in User", error.message);
     return NextResponse.json({

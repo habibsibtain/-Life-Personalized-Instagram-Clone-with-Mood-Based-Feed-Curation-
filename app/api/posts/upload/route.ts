@@ -38,6 +38,7 @@ export async function POST(req: NextRequest) {
       message: "Post created successfully",
       post: newPost,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Error creating post:", error);
 

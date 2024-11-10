@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
     }
     const posts =( await Post.find({ userId: user._id })).reverse();
     return NextResponse.json({ success: true, user , posts });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error:any) {
     console.log("Error in getting single user", error.message);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });

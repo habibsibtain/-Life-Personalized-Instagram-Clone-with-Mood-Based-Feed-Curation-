@@ -46,8 +46,9 @@ const VideoCard = ({
           .then((res) => {
             setComments([...(res.data.post.comments).reverse()]);
           })
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .catch((err: any) => {
-            console.log(err.message , 'frony');
+            console.log(err.message );
           });
       } catch (error: any) {
         console.log("Error in getting comments", error.message);
@@ -109,6 +110,7 @@ const VideoCard = ({
         Array.isArray(updatedPost.likedBy) &&
           updatedPost.likedBy.includes(currentUserId)
       );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log("Error toggling like:", error.message);
     }
@@ -129,9 +131,11 @@ const VideoCard = ({
           setComments([...(res.data.post.comments).reverse()]);
           console.log(res.data.post.comments);
         })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .catch((err: any) => {
           console.log(err.message);
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log("Error in commenting post", error.message);
     }
@@ -318,6 +322,7 @@ const FeedCard = () => {
           }
         );
         setPostData(response.data.posts);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         console.log("Error fetching data:", error.message);
       }
@@ -333,6 +338,7 @@ const FeedCard = () => {
         .then((res) => {
           setCurrentUserId(res.data.user._id);
         })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .catch((err: any) => {
           console.log(err.message);
         });
