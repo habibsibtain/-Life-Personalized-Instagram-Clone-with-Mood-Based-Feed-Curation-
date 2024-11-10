@@ -2,19 +2,26 @@ import dbConnect from "@/lib/dbConnect";
 import Post from "@/models/postSchema";
 import { NextRequest, NextResponse } from "next/server";
 
-
-export async function GET (req : NextRequest , { params }: { params: { postId: string } }) {
-
-  await dbConnect()
+export async function GET(req: NextRequest, { params }: { params: { postId: string } }) {
+  // Ensure the database is connected
+  await dbConnect();
+  
   try {
-    const { postId } = params
-   const post = await Post.findById(postId).populate({
-    path: "comments",
-    populate: {
-      path: "userId",
-    },
-   })
-    console.log(post)
+    const { postId } = params;
+
+    // Fetch the post by postId with populated comments and user info
+    const post = await Post.findById(postId)
+      .populate({
+        path: "comments",
+        populate: {
+          path: "userId",
+        },
+      });
+
+    if (!post) {
+      return NextResponse.json({ success: false, message: "Post not found" }, { status: 404 });
+    }
+
     return NextResponse.json({ success: true, post });
   } catch (error) {
     console.error("Error in getting comments", error);
