@@ -23,7 +23,7 @@ const Navbar = () => {
     }
     const fetchUser = async () => {
       await axios
-        .get("http://localhost:3000/api/users/me", {
+        .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,6 @@ const Navbar = () => {
     fetchUser();
   }, []);
 
-  console.log(userDetails);
 
   return (
     <>

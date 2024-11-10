@@ -47,7 +47,7 @@ const VideoUpload: React.FC = () => {
 
       // Send video URL and caption to your backend to save post information
       const response = await axios.post(
-        "http://localhost:3000/api/posts/upload",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/upload`,
         { mediaURL: mediaUrl, caption },
         {
           headers: {

@@ -20,7 +20,7 @@ const Sidebar = () => {
   React.useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
-      await axios.get("http://localhost:3000/api/users/all", {
+      await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         }

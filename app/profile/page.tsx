@@ -28,7 +28,7 @@ const Page = () => {
   React.useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:3000/api/users/me", {
+      .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
