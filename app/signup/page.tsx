@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   const router = useRouter()
   const [signupDetails, setSignupDetails] = React.useState({
     fullname: '',
@@ -107,4 +107,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page;

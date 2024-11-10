@@ -1,6 +1,5 @@
 import FeedCard from "@/components/FeedCard";
 import MainLayout from "@/Layouts/MainLayout";
-import Image from "next/image";
 
 export default function Home() {
   return (

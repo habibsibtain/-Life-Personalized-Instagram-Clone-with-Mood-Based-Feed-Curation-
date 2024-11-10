@@ -5,8 +5,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+type UserDetails = {
+  _id?: string;
+  fullname?: string;
+  username?: string;
+  email?: string;
+};
+
 const Navbar = () => {
-  const [userDetails, setUserDetails] = React.useState<any>([]);
+  const [userDetails, setUserDetails] = React.useState<UserDetails>({});
   const router = useRouter();
 
   React.useEffect(() => {
@@ -24,9 +31,9 @@ const Navbar = () => {
         .then((res) => {
           setUserDetails(res.data.users);
         })
-        .catch((err: any) => {
+        .catch((err) => {
           localStorage.removeItem("token");
-          console.log(err.message);
+          console.log(err);
         });
     };
     fetchUser();

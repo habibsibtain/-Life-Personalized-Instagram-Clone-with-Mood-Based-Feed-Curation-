@@ -1,15 +1,24 @@
 'use client'
 import SwitchTabs from "@/components/SwitchTabs";
 import MainLayout from "@/Layouts/MainLayout";
-import axios, { all } from "axios";
+import axios from "axios";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React from "react";
 
-const page = () => {
+type UserDetails = {
+  _id?: string;
+  fullname?: string;
+  username?: string;
+  email?: string;
+  profilePic?: string;
+  coverPic?: string;
+}
+
+const Page = () => {
   const id = useParams()
-  const [posts, setPosts] = React.useState<any>([]);
-  const [userDetails, setUserDetails] = React.useState<any>([]);
+  const [posts, setPosts] = React.useState([]);
+  const [userDetails, setUserDetails] = React.useState<UserDetails>({});
 
   React.useEffect(() => {
     const fetchUser = async () => {
@@ -78,4 +87,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

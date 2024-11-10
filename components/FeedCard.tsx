@@ -50,6 +50,7 @@ const VideoCard = ({
           .catch((err: any) => {
             console.log(err.message );
           });
+           // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         console.log("Error in getting comments", error.message);
       }
@@ -152,11 +153,10 @@ const VideoCard = ({
     }
   };
 
-  console.log(comments)
-  function timeAgo(createdAt: any) {
-    const now = new Date() as any;
-    const postTime = new Date(createdAt) as any;
-    const differenceInSeconds = Math.floor((now  - postTime  ) / 1000);
+  function timeAgo(createdAt: string | number | Date): string {
+    const now = new Date();
+    const postTime = new Date(createdAt);
+    const differenceInSeconds = Math.floor((now.getTime() - postTime.getTime()) / 1000);
   
     if (differenceInSeconds < 60) {
       return `${differenceInSeconds} seconds ago`;
@@ -175,6 +175,7 @@ const VideoCard = ({
     const differenceInDays = Math.floor(differenceInHours / 24);
     return `${differenceInDays} days ago`;
   }
+  
   
 
   const toggleCommentModal = () => setShowCommentModal(!showCommentModal);

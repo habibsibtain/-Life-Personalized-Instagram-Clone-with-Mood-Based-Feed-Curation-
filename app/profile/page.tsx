@@ -5,9 +5,25 @@ import axios from "axios";
 import Image from "next/image";
 import React from "react";
 
-const page = () => {
-  const [posts, setPosts] = React.useState<any>([]);
-  const [userDetails, setUserDetails] = React.useState<any>([]);
+type UserDetails = {
+  _id?: string;
+  fullname?: string;
+  username?: string;
+};
+
+type Post = {
+  _id?: string;
+  userId?: string;
+  videoUrl?: string;
+  caption?: string;
+  createdAt?: string;
+  username?: string;
+  fullname?: string;
+};
+
+const Page = () => {
+  const [posts, setPosts] = React.useState<Post[]>([]);
+  const [userDetails, setUserDetails] = React.useState<UserDetails>({});
 
   React.useEffect(() => {
     const token = localStorage.getItem("token");
@@ -68,4 +84,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

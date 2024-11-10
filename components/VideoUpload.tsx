@@ -64,8 +64,8 @@ const VideoUpload: React.FC = () => {
       } else {
         alert("Failed to save post.");
       }
-    } catch (error: any) {
-      console.error("Error uploading video:", error.message);
+    } catch (error) {
+      console.error("Error uploading video:", error);
       alert("An error occurred during the upload.");
     } finally {
       setUploading(false);

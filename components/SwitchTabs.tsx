@@ -2,7 +2,15 @@
 import React from "react";
 
 interface SwitchTabsProps {
-  posts: any
+  posts: Post[]
+}
+
+type Post = {
+  _id?: string
+  userId?: string
+  caption?: string
+  createdAt?: string
+  mediaURL?: string
 }
 
 const SwitchTabs: React.FC<SwitchTabsProps> = ({posts}) => {
@@ -39,8 +47,8 @@ const SwitchTabs: React.FC<SwitchTabsProps> = ({posts}) => {
         {activeTab === "tab1" ? (
           <div className="mt-4 grid grid-cols-4 gap-6 ">
             {Array.isArray(posts) && posts.length > 0 ?(
-              
-               posts.map((e: any , index: number) => (
+
+               posts.map((e: Post , index: number) => (
                 <div key={index} >
                   <video 
                   src={e.mediaURL}
