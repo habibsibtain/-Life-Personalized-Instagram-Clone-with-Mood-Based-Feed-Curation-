@@ -2,8 +2,10 @@ import dbConnect from "@/lib/dbConnect";
 import { authMiddleware , AuthenticatedRequest } from "@/authenticate";
 import { NextRequest, NextResponse } from "next/server";
 import Post from "@/models/postSchema";
+import { runCors } from "@/lib/cors";
 
 export async function POST(req: NextRequest) {
+  await runCors(req , "POST" , ()=>{})
   await dbConnect();
 
   // Check authentication and set user in the request

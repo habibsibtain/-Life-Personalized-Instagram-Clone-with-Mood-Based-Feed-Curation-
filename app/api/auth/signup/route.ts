@@ -1,10 +1,12 @@
+import { runCors } from "@/lib/cors";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/userSchema";
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
-  dbConnect();
+  await runCors(request, "POST", () => {});
+  await dbConnect();
   try {
     const { fullname, username, email, password } = await request.json();
 
