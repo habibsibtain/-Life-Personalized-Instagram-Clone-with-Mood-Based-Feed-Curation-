@@ -1,14 +1,13 @@
 import dbConnect from "@/lib/dbConnect";
 import Post from "@/models/postSchema";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, context: { params: { postId: string } }) {
+export async function GET({ params }: { params: { postId: string } }) {
   await dbConnect();
   
   try {
-    const { postId } = context.params;
+    const { postId } = params;
 
-    // Fetch the post by postId with populated comments and user info
     const post = await Post.findById(postId)
       .populate({
         path: "comments",
