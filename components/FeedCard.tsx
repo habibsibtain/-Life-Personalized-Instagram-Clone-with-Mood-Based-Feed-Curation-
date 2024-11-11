@@ -40,8 +40,6 @@ const VideoCard = ({
   const [newComment, setNewComment] = useState<string>("");
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
 
-  console.log(post.likedBy?.includes(currentUserId));
-
   useEffect(() => {
     const showPreviousComments = async () => {
       try {
@@ -90,16 +88,18 @@ const VideoCard = ({
 
     
     
-  }, []);
+  }, [post._id  ]);
+
 
   const handlePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
+        setIsPlaying(false)
       } else {
         videoRef.current.play();
       }
-      setIsPlaying(!isPlaying);
+      setIsPlaying(true);
     }
   };
 
@@ -137,7 +137,6 @@ const VideoCard = ({
         )
         .then((res) => {
           setComments([...(res.data.post.comments).reverse()]);
-          console.log(res.data.post.comments);
         })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .catch((err: any) => {
@@ -183,135 +182,139 @@ const VideoCard = ({
     return `${differenceInDays} days ago`;
   }
   
-  
-
-  const toggleCommentModal = () => setShowCommentModal(!showCommentModal);
+console.log(showCommentModal)
 
   return (
-    <div className="flex flex-col border-b border-slate-700 pb-2 mb-5">
-      {/* Header */}
-      <div className="flex px-4 mb-1 gap-4">
-        <Image
-          src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-          width={100}
-          height={100}
-          alt={`${post.username}'s profile picture`}
-          className="w-10 h-10 rounded-full"
-        />
-        <div className="flex flex-col">
-          <p className="text-sm font-bold">{post.fullname}</p>
-          <p className="text-xs text-gray-500">@{post.username}</p>
-          {/* <p className="text-xs text-gray-500">{post.caption}</p> */}
-        </div>
+    <div className={`flex flex-col lg:border-b snap-center border-slate-700 lg:pb-3 lg:mb-2 h-screen w-screen lg:w-full lg:h-full relative  `}>
+    {/* Header */}
+    <div className="absolute top-4 left-4  lg:relative lg:left-0 lg:top-0 flex gap-4 lg:py-4 items-center z-10">
+      <Image
+        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+        width={100}
+        height={100}
+        alt={`${post.username}'s profile picture`}
+        className="w-10 h-10 rounded-full"
+      />
+      <div className="flex flex-col">
+        <p className="text-sm font-bold">{post.fullname}</p>
+        <p className="text-xs text-gray-500">@{post.username}</p>
       </div>
-
-      {/* Video Content */}
-      <div className="flex justify-center w-full h-auto">
-        <video
-          ref={videoRef}
-          src={post.mediaURL}
-          loop
-          onClick={handlePlay}
-          onDoubleClick={toggleLike}
-          playsInline
-          className="w-full max-w-xs rounded-lg cursor-pointer"
-        />
-      </div>
-
-      <div className="flex items-center justify-start gap-2 py-2">
-        <button onClick={toggleLike} className="focus:outline-none">
-          {isLiked ? (
-            <AiFillHeart className="text-red-600 text-2xl" />
-          ) : (
-            <AiOutlineHeart className="text-gray-500 text-2xl" />
-          )}
-        </button>
-        <button onClick={()=>{
-          toggleCommentModal()
-          controlPlayWhenModalOpen()
-        }} className="focus:outline-none">
-          <AiOutlineMessage className="text-gray-500 text-2xl" />
-        </button>
-      </div>
-      <div>
-        <p className="text-sm text-gray-500">{likes} likes</p>
-        <p className="text-sm text-gray-500">{comments.length} comments</p>
-      </div>
-
-      {/* Comment Modal */}
-      {showCommentModal && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-[600px] rounded-lg overflow-hidden flex">
-            {/* Left side - Video */}
-            <div className="flex-1 flex justify-center items-center p-4">
-              <video
-                src={post.mediaURL}
-                loop
-                autoPlay
-                controls
-                className="w-full h-full rounded-lg"
-              />
-            </div>
-
-            {/* Right side - Comments */}
-            <div className="flex-1 bg-gray-900 p-4 relative">
-              <h3 className="text-lg font-semibold mb-4">Comments</h3>
-              <div className="overflow-y-auto h-80">
-                {comments.length > 0 ? (
-                  comments.map((e, index) => (
-                    <div key={index} className="flex items-center gap-2 mb-2">
-                      <Image
-                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                        width={100}
-                        height={100}
-                        alt={`${e.username}'s profile picture`}
-                        className="w-7 h-7 rounded-full"
-                      />
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                          <p className="text-sm font-bold">
-                            {(e.userId)!.username}
-                          </p>
-                          <span className="text-sm text-white ">
-                            {e.comment}
-                          </span>
-                        </div>
-                        <div>
-                          <p className="text-xs text-gray-500">{timeAgo((e.createdAt)!)}</p>
-                        </div>
+    </div>
+  
+    {/* Video Content */}
+    <div className="flex justify-center items-center w-full h-full">
+      <video
+        ref={videoRef}
+        src={post.mediaURL}
+        loop
+        onClick={handlePlay}
+        onDoubleClick={toggleLike}
+        playsInline
+        className="w-full h-full object-cover lg:max-w-xs cursor-pointer lg:rounded-lg"
+      />
+    </div>
+  
+    {/* Like and Comment Icons */}
+    <div className="absolute  top-[60%] lg:top-0 lg:right-0  right-8 lg:relative flex flex-col lg:flex-row lg:mt-2 items-center gap-4 z-10">
+      <button onClick={toggleLike} className="focus:outline-none">
+        {isLiked ? (
+          <AiFillHeart className="text-red-600 lg:text-2xl text-3xl" />
+        ) : (
+          <AiOutlineHeart className="text-white lg:text-2xl text-3xl" />
+        )}
+      <p className="text-sm lg:hidden  text-white">{likes}</p>
+      </button>
+      <button
+        onClick={() => {
+          setShowCommentModal(true)
+          controlPlayWhenModalOpen();
+        }}
+        className="focus:outline-none"
+      >
+        <AiOutlineMessage className="text-white lg:text-2xl text-3xl" />
+        <p className="text-sm lg:hidden text-white">{comments.length}</p>
+      </button>
+    </div>
+  
+    {/* Like and Comment Counts on lg and above */}
+    <div className="hidden lg:block">
+      <p className="text-sm text-gray-500">{likes} likes</p>
+      <p className="text-sm text-gray-500">{comments.length} comments</p>
+    </div>
+  
+    {/* Comment Modal */}
+    {showCommentModal && (
+      <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center p-4">
+        <div className="bg-white w-full lg:max-w-[600px] rounded-lg overflow-hidden flex flex-col lg:flex-row">
+          {/* Left side - Video */}
+          <div className="lg:flex-1 flex justify-center items-center p-4">
+            <video
+              src={post.mediaURL}
+              loop
+              autoPlay
+              controls
+              className="lg:w-full lg:h-full rounded-lg"
+            />
+          </div>
+  
+          {/* Right side - Comments */}
+          <div className="lg:flex-1 bg-gray-900 p-4 relative">
+            <h3 className="text-lg font-semibold mb-4">Comments</h3>
+            <div className="overflow-y-auto h-80">
+              {comments.length > 0 ? (
+                comments.map((e, index) => (
+                  <div key={index} className="flex items-center gap-2 mb-2">
+                    <Image
+                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                      width={100}
+                      height={100}
+                      alt={`${e.username}'s profile picture`}
+                      className="w-7 h-7 rounded-full"
+                    />
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-bold">{(e.userId)!.username}</p>
+                        <span className="text-sm text-white">{e.comment}</span>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500">
+                          {timeAgo(e.createdAt!)}
+                        </p>
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <p className="text-gray-500">No comments yet.</p>
-                )}
-              </div>
-              <div className="flex mt-4 gap-2 items-center">
-                <input
-                  type="text"
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="Add a comment..."
-                  className="border rounded-lg px-4 py-2 flex-1"
-                />
-                <button
-                  onClick={handleComment}
-                  className="bg-red-600 text-white px-4 py-2 rounded-lg"
-                >
-                  Post
-                </button>
-              </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500">No comments yet.</p>
+              )}
+            </div>
+            <div className="flex mt-4 gap-2 items-center">
+              <input
+                type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Add a comment..."
+                className="border rounded-lg px-4 py-2 flex-1"
+              />
               <button
-                onClick={toggleCommentModal}
-                className="absolute top-2 right-2 text-white text-xl"
+                onClick={handleComment}
+                className="bg-red-600 text-white px-4 py-2 rounded-lg"
               >
-                ✕
+                Post
               </button>
             </div>
+            <button
+              onClick={()=>{setShowCommentModal(false)}}
+              className="absolute top-2 right-2 text-white text-xl"
+            >
+              ✕
+            </button>
           </div>
         </div>
-      )}
-    </div>
+      </div>
+    )}
+  </div>
+  
   );
 };
 
@@ -356,18 +359,23 @@ const FeedCard = () => {
   }, []);
 
   return (
-    <div className="flex flex-col">
-      {postData.length > 0 ? (
-        postData.map((post) => (
-          <VideoCard key={post._id} post={post} currentUserId={currentUserId} />
-        ))
-      ) : (
-        <div className="flex justify-center p-4">
-          <p className="text-center">No Posts Yet</p>
+    <div className="flex flex-col overflow-y-scroll h-screen lg:h-auto lg:overflow-y-auto snap-y snap-mandatory lg:snap-none ">
+    {postData.length > 0 ? (
+      postData.map((post) => (
+        <div key={post._id} className="snap-start w-full">
+          <VideoCard post={post} currentUserId={currentUserId} />
         </div>
-      )}
-    </div>
+      ))
+    ) : (
+      <div className="flex justify-center p-4">
+        <p className="text-center">No Posts Yet</p>
+      </div>
+    )}
+  </div>
+  
   );
 };
 
 export default FeedCard;
+
+

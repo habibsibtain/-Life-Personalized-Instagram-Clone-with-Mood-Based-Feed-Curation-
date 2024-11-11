@@ -42,7 +42,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar bg-base-100 border-b border-slate-700 fixed z-20 ">
+      <div className="lg:navbar hidden bg-base-100 border-b border-slate-700 fixed z-20 ">
         <div className="navbar-start">
           <Link href="/" className="btn btn-ghost text-xl">
             LIFE
@@ -97,7 +97,7 @@ const Navbar = () => {
           </>
         </div>
       </div>
-      <div className="min-h-[4rem]"></div>
+      <div className="lg:min-h-[4rem] "></div>
     </>
   );
 };

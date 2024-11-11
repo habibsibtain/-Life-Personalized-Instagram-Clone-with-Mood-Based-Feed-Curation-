@@ -34,7 +34,7 @@ const Sidebar = () => {
   }, []);
   return (
     <>
-      <div className="drawer lg:drawer-open fixed w-60">
+      <div className="drawer drawer-open lg:block hidden fixed w-60 ">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 
         <div className="drawer-side min-h-screen bg-base-200">

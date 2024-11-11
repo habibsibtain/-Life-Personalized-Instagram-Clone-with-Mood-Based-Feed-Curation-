@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <MainLayout>
-        <div className="flex justify-center min-h-screen ml-60 px-40 py-2">
+        <div className="flex justify-center min-h-screen lg:ml-60 lg:px-40 lg:py-2 ">
           <FeedCard />
         </div>
       </MainLayout>
