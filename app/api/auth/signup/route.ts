@@ -8,6 +8,18 @@ export async function POST(request: Request) {
   try {
     const { fullname, username, email, password } = await request.json();
 
+    if(!fullname || !username || !email || !password) {
+      return Response.json(
+        {
+          success: false,
+          message: "All fields are required",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
       return Response.json(
@@ -30,6 +42,7 @@ export async function POST(request: Request) {
         email,
         password: hashPassword,
       });
+      
       await newUser.save();
       const token = jwt.sign(
         { userId: newUser._id },

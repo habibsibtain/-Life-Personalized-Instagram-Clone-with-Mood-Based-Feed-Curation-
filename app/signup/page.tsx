@@ -1,5 +1,6 @@
 'use client'
 import axios from 'axios'
+import { set } from 'mongoose'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -12,19 +13,22 @@ const Page = () => {
     email: '',
     password: '',
   })
+  const [loading, setLoading] = React.useState(false)
 
   const handleSignup = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
     await axios
       .post(`/api/auth/signup`, signupDetails)
       .then((res) => {
-        console.log(res)
+        if(res.data.token){
         localStorage.setItem('token', res.data.token)
         router.push('/')
+        }
       })
       .catch((err) => {
         console.log(err)
-      })
+      }).finally(() => setLoading(false))
   }
   return (
     <>
@@ -94,12 +98,12 @@ const Page = () => {
               value={signupDetails.password}
             />
             <div className="mt-4">
-              <button type="submit" className="border w-[5rem] h-[2rem] rounded-lg  border-red-600 text-red-600 hover:bg-red-600 hover:text-white  font-semibold ">
-                SignUp
+              <button type="submit" className={`border p-2 rounded-lg  border-red-600 text-red-600 hover:bg-red-600 hover:text-white  font-semibold ${loading?"opacity-50 cursor-not-allowed":""}`} >
+                {loading?"Signing Up...":"Sign Up"}
               </button>
             </div>
           </div>
-          <p className=" text-sm flex gap-2 justify-center"> Already have an account? <Link href={'/login'}> Login </Link> </p>
+          <p className=" text-sm flex gap-2 justify-center"> Already have an account? <Link href={'/login'} className={`text-red-600 ${loading?"opacity-50 cursor-not-allowed":""}`} > Login </Link> </p>
           </form>
         </div>
       </div> 
