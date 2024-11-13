@@ -185,7 +185,7 @@ const VideoCard = ({
 console.log(showCommentModal)
 
   return (
-    <div className={`flex flex-col lg:border-b snap-center border-slate-700 lg:pb-3 lg:mb-2 h-screen w-screen lg:w-full lg:h-full relative  `}>
+    <div className={`flex flex-col lg:border-b snap-start  border-slate-700 lg:pb-3 lg:mb-2 h-screen w-screen lg:w-full lg:h-full relative  `}>
     {/* Header */}
     <div className="absolute top-4 left-4  lg:relative lg:left-0 lg:top-0 flex gap-4 lg:py-4 items-center z-10">
       <Image
