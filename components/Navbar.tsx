@@ -2,9 +2,11 @@
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-
+import { FiPlusCircle } from "react-icons/fi";
+import { GrUploadOption } from "react-icons/gr";
+  
 type UserDetails = {
   _id?: string;
   fullname?: string;
@@ -15,6 +17,7 @@ type UserDetails = {
 const Navbar = () => {
   const [userDetails, setUserDetails] = React.useState<UserDetails>({});
   const router = useRouter();
+  const curentPath = usePathname();
 
   React.useEffect(() => {
     const token = localStorage.getItem("token");
@@ -39,10 +42,9 @@ const Navbar = () => {
     fetchUser();
   }, []);
 
-
   return (
     <>
-      <div className="lg:navbar hidden bg-base-100 border-b border-slate-700 fixed z-20 ">
+      <nav className="lg:navbar hidden bg-base-100 border-b border-slate-700 fixed z-20 ">
         <div className="navbar-start">
           <Link href="/" className="btn btn-ghost text-xl">
             LIFE
@@ -56,8 +58,11 @@ const Navbar = () => {
           />
         </div>
         <div className="flex-none navbar-end gap-4">
-          <>
-            <Link href="/upload" className="w-[5rem] h-[2rem] flex items-center justify-center">
+          <div className="flex gap-4 justify-center items-center">
+            <Link
+              href="/upload"
+              className="w-[5rem] h-[2rem] flex items-center justify-center"
+            >
               <button className="border w-[5rem] h-[2rem] rounded-lg  border-red-600 text-red-600  font-semibold hover:bg-red-600 hover:text-white active:w-[4.8rem] active:h-[1.8rem] transition-all duration-300 ease-in-out  ">
                 Upload
               </button>
@@ -94,10 +99,46 @@ const Navbar = () => {
                 </li>
               </ul>
             </div>
-          </>
+          </div>
         </div>
-      </div>
+      </nav>
       <div className="lg:min-h-[4rem] "></div>
+
+      {/* small screen */}
+     
+        <>
+          <footer className="lg:hidden fixed bottom-0 w-full z-50  backdrop-blur-md">
+            <div className="min-h-[4rem] flex items-center justify-around px-4">
+              <Link
+                href="#"
+                className="w-9 rounded-full h-9 flex items-center justify-center text-red-600  "
+              >
+                <FiPlusCircle className="w-full h-full" />
+              </Link>
+
+              <Link href='/upload'
+              className="w-9 rounded-full h-9 flex items-center justify-center text-red-600"
+              >
+<GrUploadOption className="w-full h-full" />
+
+              </Link>
+
+              <Link href='/profile' className="w-9 rounded-full">
+                <Image
+                  alt="Tailwind CSS Navbar component"
+                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  width={100}
+                  height={100}
+                  className="w-full h-full rounded-full"
+                  
+                />
+              </Link>
+            </div>
+          </footer>
+        </>
+  
+   
+
     </>
   );
 };

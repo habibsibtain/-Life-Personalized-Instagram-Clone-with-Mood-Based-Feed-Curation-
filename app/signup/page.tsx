@@ -33,9 +33,10 @@ const Page = () => {
   return (
     <>
       <div className="flex justify-center items-center h-screen p-4 ">
-        <div className="h-auto border p-4 rounded-xl border-slate-600 shadow-lg shadow-red-600">
-          <form onSubmit={handleSignup} className="flex flex-col mb-4 ">
+        <div className="h-auto border p-4 rounded-xl border-slate-600 w-[90%] lg:w-[20rem] shadow-lg shadow-red-600">
+          <form onSubmit={handleSignup} className="flex flex-col mb-4  ">
           <h1 className="text-2xl font-bold text-red-600 mb-6">SignUp</h1>
+          <div className="mb-8 flex flex-col  ">
           <label htmlFor="Fullname" className="text-white text-sm">
               Full Name
             </label>
@@ -51,7 +52,6 @@ const Page = () => {
               }
               value={signupDetails.fullname}
             />
-          <div className="mb-8 flex flex-col w-[20rem] ">
             <label htmlFor="Username" className="text-white text-sm">
               Username
             </label>

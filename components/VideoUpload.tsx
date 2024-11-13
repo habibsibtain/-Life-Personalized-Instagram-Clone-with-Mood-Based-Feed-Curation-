@@ -74,8 +74,8 @@ const VideoUpload: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleUpload} className="flex gap-4">
-      <div className="w-[30%]">
+    <form onSubmit={handleUpload} className="flex flex-col lg:flex-row gap-4">
+      <div className="lg:w-[30%]">
         <div className="border border-dashed border-gray-300 p-2 w-full max-w-md mx-auto h-[20rem] rounded-xl shadow-md flex justify-center items-center flex-col">
           {videoPreviewUrl ? (
             <video src={videoPreviewUrl} controls autoPlay className="w-[11rem] items-center rounded-xl" />
@@ -98,7 +98,7 @@ const VideoUpload: React.FC = () => {
           )}
         </div>
       </div>
-      <div className="w-[70%] p-6">
+      <div className="lg:w-[70%] p-6">
         <label htmlFor="caption">Caption</label>
         <textarea
           className="w-full mt-2 rounded-lg p-2 outline-none text-sm"

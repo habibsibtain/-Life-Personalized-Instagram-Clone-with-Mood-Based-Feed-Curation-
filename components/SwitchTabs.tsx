@@ -45,7 +45,7 @@ const SwitchTabs: React.FC<SwitchTabsProps> = ({posts}) => {
 
       <div>
         {activeTab === "tab1" ? (
-          <div className="mt-4 grid grid-cols-4 gap-6 ">
+          <div className="  mt-4 grid lg:grid-cols-4 grid-cols-3 lg:gap-6 gap-5">
             {Array.isArray(posts) && posts.length > 0 ?(
 
                posts.map((e: Post , index: number) => (
@@ -54,7 +54,7 @@ const SwitchTabs: React.FC<SwitchTabsProps> = ({posts}) => {
                   src={e.mediaURL}
                   playsInline
                   controls
-                  className="w-full h-[20rem] rounded-xl cursor-pointer"
+                  className="w-full lg:h-[20rem] rounded-xl cursor-pointer"
 
                   />
                 </div>
