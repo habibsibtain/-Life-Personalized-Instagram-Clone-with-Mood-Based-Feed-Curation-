@@ -54,7 +54,7 @@ const Page = () => {
   return (
     <>
       <MainLayout>
-      <div className="flex flex-col p-8  ml-60  ">
+      <div className="flex flex-col p-8  lg:ml-60  ">
         <div className="flex gap-4 ">
           <Image
             src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"

@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineHeart, AiFillHeart, AiOutlineMessage } from "react-icons/ai";
 
@@ -181,24 +182,26 @@ const VideoCard = ({
     const differenceInDays = Math.floor(differenceInHours / 24);
     return `${differenceInDays} days ago`;
   }
-  
-console.log(showCommentModal)
+
 
   return (
     <div className={`flex flex-col lg:border-b snap-start  border-slate-700 lg:pb-3 lg:mb-2 h-screen w-screen lg:w-full lg:h-full relative  `}>
     {/* Header */}
     <div className="absolute top-4 left-4  lg:relative lg:left-0 lg:top-0 flex gap-4 lg:py-4 items-center z-10">
+      <Link href={`/profile/${post.userId}`}>
       <Image
         src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
         width={100}
         height={100}
-        alt={`${post.username}'s profile picture`}
+        alt={`${post._id}'s profile picture`}
         className="w-10 h-10 rounded-full"
       />
-      <div className="flex flex-col">
+      
+      </Link>
+      <Link href={`/profile/${post.userId}`} className="flex flex-col">
         <p className="text-sm font-bold">{post.fullname}</p>
         <p className="text-xs text-gray-500">@{post.username}</p>
-      </div>
+      </Link>
     </div>
   
     {/* Video Content */}
