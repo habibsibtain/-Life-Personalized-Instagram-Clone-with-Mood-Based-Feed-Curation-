@@ -40,7 +40,22 @@ const VideoCard = ({
   const [comments, setComments] = useState<CommentData[]>([]);
   const [newComment, setNewComment] = useState<string>("");
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
+  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
 
+  // Check if the screen is small
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 1024); // Adjust breakpoint as needed (1024px here for "lg")
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  
   useEffect(() => {
     const showPreviousComments = async () => {
       try {
@@ -250,15 +265,18 @@ const VideoCard = ({
       <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center p-4">
         <div className="bg-white w-full lg:max-w-[600px] rounded-lg overflow-hidden flex flex-col lg:flex-row">
           {/* Left side - Video */}
-          <div className="lg:flex-1 flex justify-center items-center p-4">
+          {!isSmallScreen && (
+          <div className="lg:flex-1 justify-center items-center p-4 hidden lg:flex">
             <video
               src={post.mediaURL}
               loop
               autoPlay
               controls
-              className="lg:w-full lg:h-full rounded-lg"
+              className="lg:w-full lg:h-full rounded-lg "
             />
           </div>
+            
+          )}
   
           {/* Right side - Comments */}
           <div className="lg:flex-1 bg-gray-900 p-4 relative">
