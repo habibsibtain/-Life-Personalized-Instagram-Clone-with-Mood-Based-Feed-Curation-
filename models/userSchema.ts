@@ -1,4 +1,3 @@
-import exp from "constants";
 import mongoose, {Schema} from "mongoose";
 
 interface User  {
@@ -6,7 +5,9 @@ interface User  {
   username:string,
   email:string,
   password:string,
-  profilePic:string
+  profilePic:string,
+  followers:string[],
+  following:string[]
 }
 
 const userSchema: Schema <User> = new Schema({
@@ -27,6 +28,14 @@ const userSchema: Schema <User> = new Schema({
   password:{
     type:String,
     required:true
+  },
+  followers:{
+    type:[String],
+    default:[]
+  },
+  following:{
+    type:[String],
+    default:[]
   }
 })
 

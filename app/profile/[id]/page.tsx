@@ -13,6 +13,8 @@ type UserDetails = {
   email?: string;
   profilePic?: string;
   coverPic?: string;
+  following?: string[];
+  followers?: string[];
 }
 
 interface Post {
@@ -51,6 +53,20 @@ const Page = () => {
   }, []);
 
 
+  const follow = async()=>{
+    const targetedUserId = id.id
+    const token = localStorage.getItem('token')
+    await axios.post('/api/users/follow', {targetedUserId},{
+      headers:{
+        Authorization:`Bearer ${token}`,
+      }
+    }).then((res)=>{
+      console.log(res)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+
   return (
     <>
       <MainLayout>
@@ -66,7 +82,7 @@ const Page = () => {
           <div>
             <p className="font-bold">{userDetails.fullname}</p>
             <p className="text-sm text-gray-500">{userDetails.username}</p>
-            <button className="border text-sm mt-2 w-[4.5rem] h-[1.5rem] rounded-lg  border-red-600 text-red-600 hover:bg-red-600 hover:text-white  font-semibold">
+            <button onClick={()=>{follow()}} className="border text-sm mt-2 w-[4.5rem] h-[1.5rem] rounded-lg  border-red-600 text-red-600 hover:bg-red-600 hover:text-white  font-semibold">
               Follow
             </button>
           </div>
@@ -75,10 +91,10 @@ const Page = () => {
         <div className="flex flex-col gap-2 mt-3 ">
           <div className="flex gap-4">
             <p className="text-sm font-semibold">
-              10k <span className="text-gray-500">Following</span>
+              {userDetails.following?.length} <span className="text-gray-500">Following</span>
             </p>
             <p className="text-sm font-semibold">
-              44k <span className="text-gray-500">Followers</span>
+              {userDetails.followers?.length} <span className="text-gray-500">Followers</span>
             </p>
           </div>
 

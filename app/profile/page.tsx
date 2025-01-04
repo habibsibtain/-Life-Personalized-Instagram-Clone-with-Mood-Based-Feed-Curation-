@@ -9,6 +9,8 @@ type UserDetails = {
   _id?: string;
   fullname?: string;
   username?: string;
+  following?: string[];
+  followers?: string[];
 };
 
 type Post = {
@@ -62,10 +64,10 @@ const Page = () => {
           <div className="flex flex-col gap-2 mt-3 ">
             <div className="flex gap-4">
               <p className="text-sm font-semibold">
-                10k <span className="text-gray-500">Following</span>
+                {userDetails.following?.length} <span className="text-gray-500">Following</span>
               </p>
               <p className="text-sm font-semibold">
-                44k <span className="text-gray-500">Followers</span>
+                {userDetails.followers?.length} <span className="text-gray-500">Followers</span>
               </p>
             </div>
 

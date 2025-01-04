@@ -78,7 +78,7 @@ const VideoUpload: React.FC = () => {
       <div className="lg:w-[30%]">
         <div className="border border-dashed border-gray-300 p-2 w-full max-w-md mx-auto h-[20rem] rounded-xl shadow-md flex justify-center items-center flex-col">
           {videoPreviewUrl ? (
-            <video src={videoPreviewUrl} controls autoPlay className="w-[11rem] items-center rounded-xl" />
+            <video src={videoPreviewUrl} controls autoPlay className=" h-[18rem] items-center rounded-xl" />
           ) : (
             <>
               <FaCloudUploadAlt className="text-4xl self-center mb-6" />
