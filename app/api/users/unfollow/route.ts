@@ -17,19 +17,9 @@ export async function POST(req:NextRequest) {
     if(!userId || !targetedUserId){
       return NextResponse.json({message:'UserId not found.'},{status:401})
     }
-    const user = await User.findById(userId)
-    const targetedUser = await User.findById(targetedUserId)
-
-    if(user){
-      user.following = user?.following.filter((id) => id.toString() !== targetedUserId);
-    }
-
-    if(targetedUser){
-      targetedUser.followers = targetedUser.followers.filter((id)=>id.toString() !== userId)
-    }
     
-    await user?.save();
-    await targetedUser?.save();
+    await User.updateOne({_id:userId},{$pull:{following:targetedUserId}})
+    await User.updateOne({_id:targetedUserId},{$pull:{followers:userId}})
 
     return NextResponse.json({message:'Unfollwed Successfully'},{status:201})
 

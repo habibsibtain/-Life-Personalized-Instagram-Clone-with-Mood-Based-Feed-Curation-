@@ -31,26 +31,9 @@ const Page = () => {
   const id = useParams()
   const [posts, setPosts] = React.useState([]);
   const [userDetails, setUserDetails] = React.useState<UserDetails>({});
+  const [followed, setFollowed] = React.useState(false);
 
-  React.useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("token");
-      await axios.get(`/api/users/all`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      }).then((res) => {
-        const user = res.data.users.filter((user: UserDetails) => user._id === id.id);
-        const userPosts = res.data.allPosts.filter((posts: Post) => posts.userId === id.id);
-        setPosts(userPosts);
-        setUserDetails(user[0]);
-        
-      }).catch((err) => {
-        console.log(err);
-      })
-    }
-    fetchUser();
-  }, []);
+  
 
 
   const follow = async()=>{
@@ -61,11 +44,52 @@ const Page = () => {
         Authorization:`Bearer ${token}`,
       }
     }).then((res)=>{
+      setFollowed(true)
       console.log(res)
     }).catch((err)=>{
       console.log(err)
     })
   }
+  const unfollow = async()=>{
+    const targetedUserId = id.id
+    const token = localStorage.getItem('token')
+    await axios.post('/api/users/unfollow', {targetedUserId},{
+      headers:{
+        Authorization:`Bearer ${token}`,
+      }
+    }).then((res)=>{
+      console.log(res)
+
+      setFollowed(false)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+      const loggedInUserId = localStorage.getItem("userId");
+      await axios.get(`/api/users/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }).then((res) => {
+        const user = res.data.users.filter((user: UserDetails) => user._id === id.id);
+        const userPosts = res.data.allPosts.filter((posts: Post) => posts.userId === id.id);
+        setPosts(userPosts);
+        setUserDetails(user[0]);
+
+        if(user[0].followers?.includes(loggedInUserId)){
+          setFollowed(true)
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
+    }
+    fetchUser();
+  }, [followed]);
+
+  
 
   return (
     <>
@@ -82,8 +106,10 @@ const Page = () => {
           <div>
             <p className="font-bold">{userDetails.fullname}</p>
             <p className="text-sm text-gray-500">{userDetails.username}</p>
-            <button onClick={()=>{follow()}} className="border text-sm mt-2 w-[4.5rem] h-[1.5rem] rounded-lg  border-red-600 text-red-600 hover:bg-red-600 hover:text-white  font-semibold">
-              Follow
+            <button onClick={()=>{
+              followed? unfollow() : follow();
+              }} className="border text-sm mt-2 w-[4.7rem] h-[1.7rem] rounded-lg  border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all font-semibold">
+              {followed ? "Following" : "Follow"}
             </button>
           </div>
         </div>

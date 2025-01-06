@@ -95,7 +95,10 @@ const Navbar = () => {
                   <a>Settings</a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <Link href={"/login"} onClick={() => {
+                    localStorage.removeItem("userId")
+                    localStorage.removeItem("token")
+                  }}>Logout</Link>
                 </li>
               </ul>
             </div>
