@@ -1,7 +1,9 @@
 "use client";
 import axios from "axios";
+import e from "cors";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineHeart, AiFillHeart, AiOutlineMessage } from "react-icons/ai";
 
@@ -41,6 +43,7 @@ const VideoCard = ({
   const [newComment, setNewComment] = useState<string>("");
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
+  const router = useRouter();
 
   // Check if the screen is small
   useEffect(() => {
@@ -198,12 +201,21 @@ const VideoCard = ({
     return `${differenceInDays} days ago`;
   }
 
+  const handleProfileClick = () => {
+    const loggedInUserId = localStorage.getItem("userId");
+    if(loggedInUserId === post.userId){
+      router.push("/profile");
+    }else{
+      router.push(`/profile/${post.userId}`);
+    }
+  }
+
 
   return (
     <div className={`flex flex-col lg:border-b snap-start  border-slate-700 lg:pb-3 lg:mb-2 h-screen w-screen lg:w-full lg:h-full relative  `}>
     {/* Header */}
     <div className="absolute top-4 left-4  lg:relative lg:left-0 lg:top-0 flex gap-4 lg:py-4 items-center z-10">
-      <Link href={`/profile/${post.userId}`}>
+      <button onClick={handleProfileClick}>
       <Image
         src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
         width={100}
@@ -212,11 +224,11 @@ const VideoCard = ({
         className="w-10 h-10 rounded-full"
       />
       
-      </Link>
-      <Link href={`/profile/${post.userId}`} className="flex flex-col">
+      </button>
+      <button onClick={handleProfileClick} className="flex flex-col">
         <p className="text-sm font-bold">{post.fullname}</p>
         <p className="text-xs text-gray-500">@{post.username}</p>
-      </Link>
+      </button>
     </div>
   
     {/* Video Content */}
