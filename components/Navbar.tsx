@@ -2,7 +2,7 @@
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import React from "react";
 import { FiPlusCircle } from "react-icons/fi";
 import { GrUploadOption } from "react-icons/gr";
@@ -17,7 +17,6 @@ type UserDetails = {
 const Navbar = () => {
   const [userDetails, setUserDetails] = React.useState<UserDetails>({});
   const router = useRouter();
-  const curentPath = usePathname();
 
   React.useEffect(() => {
     const token = localStorage.getItem("token");

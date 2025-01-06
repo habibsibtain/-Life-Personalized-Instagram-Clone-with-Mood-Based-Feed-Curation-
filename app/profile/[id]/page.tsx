@@ -107,7 +107,11 @@ const Page = () => {
             <p className="font-bold">{userDetails.fullname}</p>
             <p className="text-sm text-gray-500">{userDetails.username}</p>
             <button onClick={()=>{
-              followed? unfollow() : follow();
+              if(followed){
+                unfollow()
+              }else{
+                follow()
+              }
               }} className="border text-sm mt-2 w-[4.7rem] h-[1.7rem] rounded-lg  border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all font-semibold">
               {followed ? "Following" : "Follow"}
             </button>
