@@ -36,9 +36,7 @@ const VideoCard = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [likes, setLikes] = useState<number>(post.likes || 0);
-  const [isLiked, setIsLiked] = useState<boolean>(
-    post.likedBy?.includes(currentUserId) ?? false
-  );
+  const [isLiked, setIsLiked] = useState<boolean>(false);
   const [comments, setComments] = useState<CommentData[]>([]);
   const [newComment, setNewComment] = useState<string>("");
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
@@ -68,7 +66,9 @@ const VideoCard = ({
             headers: { Authorization: `Bearer ${token}` },
           })
           .then((res) => {
+            setLikes(res.data.post.likes || 0);
             setComments([...(res.data.post.comments).reverse()]);
+            setIsLiked(res.data.post.likedBy.includes(currentUserId));
           })
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .catch((err: any) => {
@@ -79,7 +79,6 @@ const VideoCard = ({
         console.log("Error in getting comments", error.message);
       }
     };
-
     showPreviousComments();
 
     const observer = new IntersectionObserver(
@@ -107,7 +106,7 @@ const VideoCard = ({
 
     
     
-  }, [post._id  ]);
+  }, [post._id, currentUserId]);
 
 
   const handlePlay = () => {
@@ -246,7 +245,7 @@ const VideoCard = ({
   
     {/* Like and Comment Icons */}
     <div className="absolute  top-[60%] lg:top-0 lg:right-0  right-8 lg:relative flex flex-col lg:flex-row lg:mt-2 items-center gap-4 z-10">
-      <button onClick={toggleLike} className="focus:outline-none">
+      <button onClick={()=>{toggleLike()}} className="focus:outline-none">
         {isLiked ? (
           <AiFillHeart className="text-red-600 lg:text-2xl text-3xl" />
         ) : (
