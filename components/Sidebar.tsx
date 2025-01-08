@@ -15,7 +15,7 @@ type UserDetails = {
 };
 const Sidebar = () => {
   const [userDetails, setUserDetails] = React.useState<UserDetails>({});
-  const [activeTab, setActiveTab] = React.useState<string>(localStorage.getItem('activeTab') || "for_you");
+  const [activeTab, setActiveTab] = React.useState<string>("for_you");
 
   React.useEffect(() => {
     const fetchUser = async () => {
@@ -36,9 +36,22 @@ const Sidebar = () => {
     fetchUser();
   }, []);
 
-  React.useEffect(()=>{
-    localStorage.setItem('activeTab',activeTab)
-  },[activeTab]) 
+  React.useEffect(() => {
+    // Fetch activeTab from localStorage if in the browser
+    if (typeof window !== "undefined") {
+      const storedTab = localStorage.getItem("activeTab");
+      if (storedTab) {
+        setActiveTab(storedTab);
+      }
+    }
+  }, []);
+
+  React.useEffect(() => {
+    // Save activeTab to localStorage whenever it changes, if in the browser
+    if (typeof window !== "undefined") {
+      localStorage.setItem("activeTab", activeTab);
+    }
+  }, [activeTab]);
   return (
     <>
       <div className="drawer drawer-open lg:block hidden fixed w-60 ">
