@@ -38,7 +38,7 @@ const Sidebar = () => {
 
   React.useEffect(()=>{
     localStorage.setItem('activeTab',activeTab)
-  },[activeTab])
+  },[activeTab]) 
   return (
     <>
       <div className="drawer drawer-open lg:block hidden fixed w-60 ">
