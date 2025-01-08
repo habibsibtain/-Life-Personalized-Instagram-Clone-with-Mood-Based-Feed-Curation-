@@ -209,6 +209,7 @@ const VideoCard = ({
     }
   }
 
+  console.log(isLiked)
 
   return (
     <div className={`flex flex-col lg:border-b snap-start  border-slate-700 lg:pb-3 lg:mb-2 h-screen w-screen lg:w-full lg:h-full relative  `}>
