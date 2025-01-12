@@ -2,6 +2,7 @@ import { AuthenticatedRequest, authMiddleware } from "@/authenticate";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/userSchema";
 import { NextRequest, NextResponse } from "next/server";
+import { io } from "@/server/socketServer";
 
 export async function POST(req: NextRequest) {
   await dbConnect();
@@ -46,6 +47,8 @@ export async function POST(req: NextRequest) {
 
     await user.save();
     await targetUser.save();
+
+    io!.to(targetedUserId).emit('followerUpdate' , {followerId: userId})
 
     return NextResponse.json(
       { message: "Followed Successfully." },

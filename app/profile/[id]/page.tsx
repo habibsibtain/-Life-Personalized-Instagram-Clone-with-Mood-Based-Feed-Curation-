@@ -4,7 +4,8 @@ import MainLayout from "@/Layouts/MainLayout";
 import axios from "axios";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
+import { io, Socket } from "socket.io-client";
 
 type UserDetails = {
   _id?: string;
@@ -33,39 +34,77 @@ const Page = () => {
   const [userDetails, setUserDetails] = React.useState<UserDetails>({});
   const [followed, setFollowed] = React.useState(false);
 
+  const socket = React.useRef<Socket | null>(null);
   
-
-
-  const follow = async()=>{
-    const targetedUserId = id.id
-    const token = localStorage.getItem('token')
-    await axios.post('/api/users/follow', {targetedUserId},{
-      headers:{
-        Authorization:`Bearer ${token}`,
-      }
-    }).then((res)=>{
-      setFollowed(true)
-      console.log(res)
-    }).catch((err)=>{
-      console.log(err)
-    })
-  }
-  const unfollow = async()=>{
-    const targetedUserId = id.id
-    const token = localStorage.getItem('token')
-    await axios.post('/api/users/unfollow', {targetedUserId},{
-      headers:{
-        Authorization:`Bearer ${token}`,
-      }
-    }).then((res)=>{
-      console.log(res)
-
-      setFollowed(false)
-    }).catch((err)=>{
-      console.log(err)
-    })
-  }
   React.useEffect(() => {
+    // Initialize Socket.IO connection
+    socket.current = io({
+      path: "/api/socket",
+    });
+
+    // Listen for follower updates
+    socket.current.on("followersUpdated", (data) => {
+      if (data.userId === id.id) {
+        fetchUser();
+      }
+    });
+
+    return () => {
+      socket.current!.disconnect();
+    };
+  }, []);
+
+  const follow = async () => {
+    const targetedUserId = id.id;
+    const token = localStorage.getItem("token");
+    await axios
+      .post(
+        "/api/users/follow",
+        { targetedUserId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setFollowed(true);
+        // Notify backend to emit updates
+        socket.current!.emit("updateFollowers", { userId: targetedUserId });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const unfollow = async () => {
+    const targetedUserId = id.id;
+    const token = localStorage.getItem("token");
+    await axios
+      .post(
+        "/api/users/unfollow",
+        { targetedUserId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setFollowed(false);
+        // Notify backend to emit updates
+        socket.current!.emit("updateFollowers", { userId: targetedUserId });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  React.useEffect(() => {
+    fetchUser();
+  }, []);
+
+  
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
       const loggedInUserId = localStorage.getItem("userId");
@@ -87,7 +126,6 @@ const Page = () => {
       })
     }
     fetchUser();
-  }, [followed]);
 
   
 
